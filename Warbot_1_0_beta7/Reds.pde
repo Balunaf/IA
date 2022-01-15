@@ -89,7 +89,23 @@ class RedBase extends Base {
       if (perceiveRobotsInCone(friend, heading) == null)
         launchFaf(bob);
     }
+    
+    if (brain[0].x !=-1){
+      //si une première base a été découverte, en informe les launchers alentours
+      for( Object r : (perceiveRobots(friend,LAUNCHER))){
+        informAboutXYTarget((Robot) r,new PVector(brain[0].x,brain[0].y));
+      }      
+    }
+    if (brain[1].x !=-1){
+      //si une deusièmee base a été découverte, en informe les launchers alentours
+      for( Object r : (perceiveRobots(friend,LAUNCHER))){
+        informAboutXYTarget((Robot) r,new PVector(brain[1].x,brain[1].y));
+      }
+           
+    }
   }
+  
+
 
   //
   // handleMessage
