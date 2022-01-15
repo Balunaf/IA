@@ -161,6 +161,10 @@ class RedExplorer extends Explorer {
   // > called at the creation of the agent
   //
   void setup() {
+    brain[1].x = random(360);
+    heading = brain[1].x;
+    brain[1].y = 0;
+    brain[2].x = brain[2].y = -1;
   }
 
   //
@@ -171,7 +175,7 @@ class RedExplorer extends Explorer {
   //
   void go() {
     // if food to deposit or too few energy
-    if ((carryingFood > 200) || (energy < 100))
+    if ((carryingFood > 200) || (energy < 100) || brain[1].y == 1)
       // time to go back to base
       brain[4].x = 1;
 
@@ -179,9 +183,15 @@ class RedExplorer extends Explorer {
     if (brain[4].x == 1) {
       // go back to base...
       goBackToBase();
+      if (brain[2].x != -1){
+        Explorer explo = (Explorer)oneOf(perceiveRobots(friend, EXPLORER));
+        if (explo != null)
+          // if one is seen, send a message with the localized ennemy base
+          informAboutXYTarget(explo, brain[2]);
+      }
     } else {
-      // ...or explore randomly
-      randomMove(1);
+      // ...or explore in a defined straight line
+      tryToMoveForward();
     }
 
     // tries to localize ennemy bases
@@ -315,6 +325,9 @@ class RedExplorer extends Explorer {
       if (basy != null)
         // if one is seen, send a message with the localized ennemy base
         informAboutTarget(basy, babe);
+      brain[2].x = babe.pos.x;
+      brain[2].y = babe.pos.y;
+      brain[1].y = 1;
     }
   }
 
