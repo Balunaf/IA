@@ -143,6 +143,16 @@ class RedBase extends Base {
           
           
         }
+        else if (msg.type == INFORM_ABOUT_XYTARGET){
+          //stocke les coordonnées d'un base ennemie transférées depuis un explorer qui est revenu et qui n'a pas pu contacter la base au moment de partir
+          if (brain[0].x == -1) {
+            brain[0].x = msg.args[0];
+            brain[0].y = msg.args[1];
+          }
+          else if(brain[0].x != msg.args[0] && brain[0].y != msg.args[1] && brain[1].x != -1){
+             brain[1].x = msg.args[0];
+             brain[1].y = msg.args[1];
+          }
           
       }
     }
