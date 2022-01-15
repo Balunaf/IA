@@ -335,7 +335,7 @@ class RedExplorer extends Explorer {
       Explorer explo = (Explorer)oneOf(perceiveRobots(friend, EXPLORER));
       if (explo != null)
         // if one is seen, send a message with the localized ennemy base
-        informAboutTarget(explo, babe);
+        informAboutXYTarget(explo, babe.pos);
       // look for a friend base
       Base basy = (Base)oneOf(perceiveRobots(friend, BASE));
       if (basy != null)
@@ -361,6 +361,24 @@ class RedExplorer extends Explorer {
     if (freeAhead(speed))
       forward(speed);
   }
+  
+  //
+  // handleMessage
+  // =============
+  // > handle messages received since last activation 
+  //
+  void handleMessages() {
+    Message msg;
+    // for all messages
+    for (int i=0; i<messages.size(); i++) {
+      msg = messages.get(i);
+      if (msg.type == INFORM_ABOUT_XYTARGET) {
+        // if the message is information about coordinates, it is about a base so we take the information and keep on trying to bring it to the base as fast as possible
+        brain[2] = msg.args;
+        brain[1].y = 1;
+      }
+      
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////
