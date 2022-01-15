@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////
 //
-// The code for the redred team
+// The code for the green team
 // ===========================
 //
 ///////////////////////////////////////////////////////////////////////////
@@ -11,7 +11,7 @@ class RedTeam extends Team {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// The code for the red bases
+// The code for the green bases
 //
 ///////////////////////////////////////////////////////////////////////////
 class RedBase extends Base {
@@ -33,6 +33,10 @@ class RedBase extends Base {
     newHarvester();
     // 7 more harvesters to create
     brain[5].x = 7;
+    brain[0].x = -1;
+    brain[0].y = -1;
+    brain[1].x = -1;
+    brain[1].y = -1;
   }
 
   //
@@ -109,6 +113,20 @@ class RedBase extends Base {
           // gives the requested amount of bullets only if at least 1000 units of energy left after
           giveBullets(msg.agent, msg.args[0]);
         }
+      } else if (msg.type == INFORM_ABOUT_TARGET){
+        if(msg.args[2] == BASE) {
+          if (brain[0].x == -1) {
+            brain[0].x = msg.args[0];
+            brain[0].y = msg.args[1];
+          }
+          else if(brain[0].x != msg.args[0] && brain[0].y != msg.args[1] && brain[1].x != -1){
+             brain[1].x = msg.args[0];
+             brain[1].y = msg.args[1];
+          }
+          
+          
+        }
+          
       }
     }
     // clear the message queue
@@ -118,7 +136,7 @@ class RedBase extends Base {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// The code for the red explorers
+// The code for the green explorers
 //
 ///////////////////////////////////////////////////////////////////////////
 // map of the brain:
@@ -162,7 +180,7 @@ class RedExplorer extends Explorer {
       goBackToBase();
     } else {
       // ...or explore randomly
-      randomMove(45);
+      randomMove(1);
     }
 
     // tries to localize ennemy bases
@@ -217,12 +235,7 @@ class RedExplorer extends Explorer {
       } else {
         // if still away from the base
         // head towards the base (with some variations)...
-        if(perceiveWallsInCone(10).isEmpty()){
-          heading = towards(bob);
-        }
-        else{
-          heading = towards(bob) + random(-radians(20),radians(20));
-        }
+        heading = towards(bob) + random(-radians(20), radians(20));
         // ...and try to move forward 
         tryToMoveForward();
       }
@@ -307,7 +320,7 @@ class RedExplorer extends Explorer {
   void tryToMoveForward() {
     // if there is an obstacle ahead, rotate randomly
     if (!freeAhead(speed))
-      right(45+random(270));
+      right(random(360));
 
     // if there is no obstacle ahead, move forward at full speed
     if (freeAhead(speed))
@@ -317,7 +330,7 @@ class RedExplorer extends Explorer {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// The code for the red harvesters
+// The code for the green harvesters
 //
 ///////////////////////////////////////////////////////////////////////////
 // map of the brain:
@@ -521,7 +534,7 @@ class RedHarvester extends Harvester {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// The code for the red rocket launchers
+// The code for the green rocket launchers
 //
 ///////////////////////////////////////////////////////////////////////////
 // map of the brain:
