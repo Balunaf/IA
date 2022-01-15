@@ -234,8 +234,13 @@ class RedExplorer extends Explorer {
         right(180);
       } else {
         // if still away from the base
-        // head towards the base (with some variations)...
-        heading = towards(bob) + random(-radians(20), radians(20));
+        // head towards the base (with some variations if there is a wall in the way)...
+        if(perceiveWallsInCone(10).isEmpty()){
+          heading = towards(bob);
+        }
+        else{
+          heading = towards(bob) + random(-radians(20), radians(20));
+        }
         // ...and try to move forward 
         tryToMoveForward();
       }
@@ -320,7 +325,7 @@ class RedExplorer extends Explorer {
   void tryToMoveForward() {
     // if there is an obstacle ahead, rotate randomly
     if (!freeAhead(speed))
-      right(random(360));
+      right(45+random(270));
 
     // if there is no obstacle ahead, move forward at full speed
     if (freeAhead(speed))
