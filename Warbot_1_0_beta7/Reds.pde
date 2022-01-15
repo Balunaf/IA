@@ -114,6 +114,7 @@ class RedBase extends Base {
           giveBullets(msg.agent, msg.args[0]);
         }
       } else if (msg.type == INFORM_ABOUT_TARGET){
+        //stocke les coordonnées des bases ennemis pour ordonner aux missiles launchers d'aller attaquer la base
         if(msg.args[2] == BASE) {
           if (brain[0].x == -1) {
             brain[0].x = msg.args[0];
