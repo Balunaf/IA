@@ -9,7 +9,7 @@ final int TARGET_DESTROYED = 6;
 
 class RedTeam extends Team {
   final int MY_CUSTOM_MSG = 5;
-  final int TARGET_DESTROYED = 6;
+  final int TARGET_DESTROYED = 6;//message qui informe si la target à l'emplacement X Y a été détruite
 }
 
 ///////////////////////////////////////////////////////////////////////////
