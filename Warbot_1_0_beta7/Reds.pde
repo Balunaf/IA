@@ -684,7 +684,7 @@ class RedRocketLauncher extends RocketLauncher {
   //============
   //>rush on the point x,y while ignoring other ennemy
   //
-  void rush(int x, int y){
+  void rush(float x, float y){
     
     
   }
