@@ -4,6 +4,7 @@
 // ===========================
 //
 final int TARGET_DESTROYED = 6;
+final int ASK_TO_BE_RECYCLED = 7;
 ///////////////////////////////////////////////////////////////////////////
 
 class RedTeam extends Team {
@@ -33,14 +34,16 @@ class RedBase extends Base {
   void setup() {
     // creates a new harvester
     newHarvester();
-    // 7 more harvesters to create
+    // 3 more harvesters to create
     brain[5].x = 3;
     brain[5].y = 3;
     brain[5].z = 1;
     brain[0].x = -1;
     brain[0].y = -1;
+    brain[0].z = 0;
     brain[1].x = -1;
     brain[1].y = -1;
+    brain[1].z = 0;
   }
 
   //
@@ -82,8 +85,8 @@ class RedBase extends Base {
     // creates new bullets and fafs if the stock is low and enought energy
     if ((bullets < 10) && (energy > 1000))
       newBullets(50);
-    if ((bullets < 10) && (energy > 1000))
-      newFafs(10);
+    //if ((bullets < 10) && (energy > 1000))
+    //  newFafs(10);
 
     // if ennemy rocket launcher in the area of perception
     Robot bob = (Robot)minDist(perceiveRobots(ennemy, LAUNCHER));
