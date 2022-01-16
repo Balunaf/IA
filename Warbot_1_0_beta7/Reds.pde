@@ -70,7 +70,7 @@ class RedBase extends Base {
       else if ((int)random(2) == 0)
         // creates a new rocket launcher with 25% chance
         brain[5].y++;
-      else
+      else if (brain[1].x == -1)
         // creates a new explorer with 25% chance
         brain[5].z++;
     }
@@ -149,8 +149,8 @@ class RedBase extends Base {
           brain[0].y = msg.args[1];
         }
         else if(brain[0].x != msg.args[0] && brain[0].y != msg.args[1] && brain[1].x != -1){
-         brain[1].x = msg.args[0];
-           brain[1].y = msg.args[1];
+          brain[1].x = msg.args[0];
+          brain[1].y = msg.args[1];
         }   
       }
     }
@@ -208,10 +208,10 @@ class RedExplorer extends Explorer {
       // go back to base...
       goBackToBase();
       if (brain[2].x != -1){
-        Explorer explo = (Explorer)oneOf(perceiveRobots(friend, EXPLORER));
-        if (explo != null)
+        RocketLauncher rocky = (RocketLauncher)oneOf(perceiveRobots(friend, LAUNCHER));
+        if (rocky != null)
           // if one is seen, send a message with the localized ennemy base
-          informAboutXYTarget(explo, brain[2]);
+          informAboutXYTarget(rocky, brain[2]);
       }
     } else {
       // ...or explore in a defined straight line
@@ -274,7 +274,7 @@ class RedExplorer extends Explorer {
       } else {
         // if still away from the base
         // head towards the base (with some variations if there is a wall in the way)...
-        if(perceiveWallsInCone(10) != new ArrayList()){
+        if(perceiveWallsInCone(10) != null){
           heading = towards(bob);
         }
         else{
