@@ -274,7 +274,7 @@ class RedExplorer extends Explorer {
       } else {
         // if still away from the base
         // head towards the base (with some variations if there is a wall in the way)...
-        if(perceiveWallsInCone(10).size() == 0){
+        if(perceiveWallsInCone(10) != null){
           heading = towards(bob);
         }
         else{
