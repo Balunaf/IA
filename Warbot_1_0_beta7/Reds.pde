@@ -552,10 +552,10 @@ class RedHarvester extends Harvester {
   // ================
   // > try to move forward after having checked that no obstacle is in front
   //
-  void tryToMoveForward() {
+   void tryToMoveForward() {
     // if there is an obstacle ahead, rotate randomly
     if (!freeAhead(speed))
-      right(random(360));
+      right(45+random(270));
 
     // if there is no obstacle ahead, move forward at full speed
     if (freeAhead(speed))
@@ -646,10 +646,11 @@ class RedRocketLauncher extends RocketLauncher {
     } else {
        handleMessages();
        
-       //I target is a base we rush on it 
+       //If target is a base we rush on it 
        if (brain[4].z == 0){
          rush(brain[4].x,brain[4].y);
        }
+       else{
       
       // try to find a target
       selectTarget();
@@ -661,6 +662,7 @@ class RedRocketLauncher extends RocketLauncher {
         // else explore randomly
         randomMove(45);
     }
+    
   }
   
   void handleMessages() {
@@ -685,7 +687,22 @@ class RedRocketLauncher extends RocketLauncher {
   //>rush on the point x,y while ignoring other ennemy
   //
   void rush(float x, float y){
-    
+    ArrayList trg = perceiveRobots(ennemy, BASE);
+    if (trg != null) {
+      launchBullet(towards(brain[0]));
+      
+    }
+    else{
+   
+    if(perceiveWallsInCone(10) != null){
+       heading = towards(new PVector(x,y));
+      
+    }
+    else{
+      heading = towards(new PVector(x,y))+random(radians(20),radians(20));
+    }
+    tryToMoveForward();
+    }
     
   }
 
@@ -760,7 +777,7 @@ class RedRocketLauncher extends RocketLauncher {
   void tryToMoveForward() {
     // if there is an obstacle ahead, rotate randomly
     if (!freeAhead(speed))
-      right(random(360));
+      right(45+random(270));
 
     // if there is no obstacle ahead, move forward at full speed
     if (freeAhead(speed))
