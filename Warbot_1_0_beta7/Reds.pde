@@ -140,20 +140,18 @@ class RedBase extends Base {
              brain[1].x = msg.args[0];
              brain[1].y = msg.args[1];
           }
-          
-          
         }
-        else if (msg.type == INFORM_ABOUT_XYTARGET){
-          //stocke les coordonnées d'un base ennemie transférées depuis un explorer qui est revenu et qui n'a pas pu contacter la base au moment de partir
-          if (brain[0].x == -1) {
-            brain[0].x = msg.args[0];
-            brain[0].y = msg.args[1];
-          }
-          else if(brain[0].x != msg.args[0] && brain[0].y != msg.args[1] && brain[1].x != -1){
-             brain[1].x = msg.args[0];
-             brain[1].y = msg.args[1];
-          }
-          
+      }
+      else if (msg.type == INFORM_ABOUT_XYTARGET){
+        //stocke les coordonnées d'un base ennemie transférées depuis un explorer qui est revenu et qui n'a pas pu contacter la base au moment de partir
+        if (brain[0].x == -1) {
+          brain[0].x = msg.args[0];
+          brain[0].y = msg.args[1];
+        }
+        else if(brain[0].x != msg.args[0] && brain[0].y != msg.args[1] && brain[1].x != -1){
+         brain[1].x = msg.args[0];
+           brain[1].y = msg.args[1];
+        }   
       }
     }
     // clear the message queue
@@ -268,11 +266,12 @@ class RedExplorer extends Explorer {
         // switch to the exploration state
         brain[4].x = 0;
         // make a half turn
-        right(180);
+        brain[1].x = random(360);
+        brain[1].y = 0;
       } else {
         // if still away from the base
         // head towards the base (with some variations if there is a wall in the way)...
-        if(perceiveWallsInCone(10).isEmpty()){
+        if(perceiveWallsInCone(10) != new ArrayList()){
           heading = towards(bob);
         }
         else{
@@ -384,11 +383,13 @@ class RedExplorer extends Explorer {
       msg = messages.get(i);
       if (msg.type == INFORM_ABOUT_XYTARGET) {
         // if the message is information about coordinates, it is about a base so we take the information and keep on trying to bring it to the base as fast as possible
-        brain[2] = msg.args;
+        brain[2].x = msg.args[0];
+        brain[2].y = msg.args[1];
         brain[1].y = 1;
       }
-      
     }
+    flushMessages();
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////
