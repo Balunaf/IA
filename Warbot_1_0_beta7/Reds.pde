@@ -208,10 +208,10 @@ class RedExplorer extends Explorer {
       // go back to base...
       goBackToBase();
       if (brain[2].x != -1){
-        Explorer explo = (Explorer)oneOf(perceiveRobots(friend, EXPLORER));
-        if (explo != null)
+        RocketLauncher rocky = (RocketLauncher)oneOf(perceiveRobots(friend, LAUNCHER));
+        if (rocky != null)
           // if one is seen, send a message with the localized ennemy base
-          informAboutXYTarget(explo, brain[2]);
+          informAboutXYTarget(rocky, brain[2]);
       }
     } else {
       // ...or explore in a defined straight line
