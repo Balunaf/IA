@@ -33,7 +33,8 @@ class RedBase extends Base {
     newHarvester();
     // 7 more harvesters to create
     brain[5].x = 0;
-    brain[5].y = 7;
+    brain[5].y = 3;
+    brain[5].z = 2;
     brain[0].x = -1;
     brain[0].y = -1;
     brain[1].x = -1;
@@ -421,6 +422,7 @@ class RedHarvester extends Harvester {
   // > called at the creation of the agent
   //
   void setup() {
+    
   }
 
   //
@@ -648,8 +650,8 @@ class RedRocketLauncher extends RocketLauncher {
        handleMessages();
        
        //If target is a base we rush on it 
-       if (brain[4].z == 0){
-         rush(brain[4].x,brain[4].y);
+       if (brain[0].z == 0){
+         rush(brain[0].x,brain[0].y);
        }
        else{
       
