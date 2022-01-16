@@ -34,9 +34,9 @@ class RedBase extends Base {
     // creates a new harvester
     newHarvester();
     // 7 more harvesters to create
-    brain[5].x = 0;
+    brain[5].x = 3;
     brain[5].y = 3;
-    brain[5].z = 2;
+    brain[5].z = 1;
     brain[0].x = -1;
     brain[0].y = -1;
     brain[1].x = -1;
@@ -159,11 +159,15 @@ class RedBase extends Base {
       }
       //quand un LAUNCHER rentre de la base avec la le message targetDestroyed
       else if(msg.type == TARGET_DESTROYED){
-        if (msg.args[0] == brain[0].x || msg.args[1] == brain[0].y){
-          brain[0].x =-1;
+        if (msg.args[0] == brain[0].x && msg.args[1] == brain[0].y){
+          brain[0].x = -1;
           brain[0].y = -1;
-          
-        }
+         }
+        if (msg.args[0] == brain[1].x && msg.args[1] == brain[1].y){
+          brain[1].x = -1;
+          brain[1].y = -1;
+         }
+        
       }
     }
     // clear the message queue
