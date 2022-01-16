@@ -157,6 +157,14 @@ class RedBase extends Base {
           brain[1].y = msg.args[1];
         }   
       }
+      //quand un LAUNCHER rentre de la base avec la le message targetDestroyed
+      else if(msg.type == TARGET_DESTROYED){
+        if (msg.args[0] == brain[0].x || msg.args[1] == brain[0].y){
+          brain[0].x =-1;
+          brain[0].y = -1;
+          
+        }
+      }
     }
     // clear the message queue
     flushMessages();
@@ -639,11 +647,20 @@ class RedRocketLauncher extends RocketLauncher {
   // > called at each iteration of the game
   // > defines the behavior of the agent
   //
+  void informAboutTargetDestroyed(Robot bob){
+    float[] args = new float[2];
+      args[0] = brain[0].x;
+      args[1] = brain[0].y;
+      Message msg = new Message(TARGET_DESTROYED,who,args);
+      bob.messages.add(msg);
+  }
   void go() {
     //if the base target has been destroy 
     if (brain[4].x == 2){
       
-      Message msg = new Message(team.T,this,(brain[0].x,brain[0].y));
+            if (perceiveRobots(friend,BASE) != null){
+              informAboutTargetDestroyed((Robot) oneOf(perceiveRobots(friend,BASE)));
+            }
     }
     // if no energy or no bullets
     if ((energy < 100) || (bullets == 0))
