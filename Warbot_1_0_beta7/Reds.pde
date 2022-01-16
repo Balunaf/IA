@@ -622,6 +622,7 @@ class RedRocketLauncher extends RocketLauncher {
   // > called at the creation of the agent
   //
   void setup() {
+    brain[0].z = -1;
   }
 
   //
@@ -640,6 +641,13 @@ class RedRocketLauncher extends RocketLauncher {
       // if in "go back to base" mode
       goBackToBase();
     } else {
+       handleMessages();
+       
+       //I target is a base we rush on it 
+       if (brain[4].z == 0){
+         rush(brain[4].x,brain[4].y);
+       }
+      
       // try to find a target
       selectTarget();
       // if target identified
@@ -650,6 +658,32 @@ class RedRocketLauncher extends RocketLauncher {
         // else explore randomly
         randomMove(45);
     }
+  }
+  
+  void handleMessages() {
+    Message msg;
+    // for all messages
+    for (int i=0; i<messages.size(); i++) {
+      msg = messages.get(i);
+      if (msg.type == INFORM_ABOUT_XYTARGET) {
+        // if the message is information about coordinates, it is about a base so we take the information 
+        brain[0].x = msg.args[0];
+        brain[0].y = msg.args[1];
+        brain[0].z = 0;
+        brain[4].x = 0;
+        brain[4].y = 1;
+      }
+    }
+    flushMessages();
+  }
+  //
+  //rush
+  //============
+  //>rush on the point x,y while ignoring other ennemy
+  //
+  void rush(int x, int y){
+    
+    
   }
 
   //
