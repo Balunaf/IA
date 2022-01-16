@@ -7,6 +7,7 @@
 
 class RedTeam extends Team {
   final int MY_CUSTOM_MSG = 5;
+  final int TARGET_DESTROYED = 6;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -610,7 +611,7 @@ class RedHarvester extends Harvester {
 // map of the brain:
 //   0.x / 0.y = position of the target
 //   0.z = breed of the target
-//   4.x = (0 = look for target | 1 = go back to base) 
+//   4.x = (0 = look for target | 1 = go back to base| 2 = go back to base inform destroy) 
 //   4.y = (0 = no target | 1 = localized target)
 ///////////////////////////////////////////////////////////////////////////
 class RedRocketLauncher extends RocketLauncher {
@@ -641,16 +642,20 @@ class RedRocketLauncher extends RocketLauncher {
     // if no energy or no bullets
     if ((energy < 100) || (bullets == 0))
       // go back to the base
-      brain[4].x = 1;
+      if (brain[4].x != 2) brain[4].x = 1;
 
-    if (brain[4].x == 1) {
+    if (brain[4].x == 1 || brain[4].x == 2) {
       // if in "go back to base" mode
       goBackToBase();
     } else {
        handleMessages();
        
+       if(distance(new PVector(brain[0].x,brain[0].y)) < 5 &&  perceiveRobots(ennemy, BASE)== null ){
+               brain[4].x = 2;  
+               brain[0].z = -1;
+       }
        //If target is a base we rush on it 
-       if (brain[0].z == 0){
+       if (brain[0].z == 0 && brain[4].x == 0){
          rush(brain[0].x,brain[0].y);
        }
        else{
@@ -696,7 +701,6 @@ class RedRocketLauncher extends RocketLauncher {
       launchBullet(towards(brain[0]));
           }
     else{
-     
        heading = towards(new PVector(x,y));
       }
     tryToMoveForward();
