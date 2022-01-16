@@ -526,7 +526,7 @@ class RedHarvester extends Harvester {
         takeFood(zorg);
       else {
         // if away from the burger, head towards it...
-        heading = towards(zorg) + random(-radians(20), radians(20));
+        heading = towards(zorg);
         // ...and try to move forward
         tryToMoveForward();
       }
@@ -542,7 +542,7 @@ class RedHarvester extends Harvester {
         brain[4].y = 0;
     } else {
       // if no food seen and no food localized, explore randomly
-      heading += random(-radians(45), radians(45));
+      heading += random(-radians(20), radians(20));
       tryToMoveForward();
     }
   }
