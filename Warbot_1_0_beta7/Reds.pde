@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////
 //
-// The code for the red team
+// The code for the green team
 // ===========================
 //
 final int TARGET_DESTROYED = 6;
-final int ASK_TO_BE_RECYCLED = 7;
+
 ///////////////////////////////////////////////////////////////////////////
 
 class RedTeam extends Team {
@@ -14,7 +14,7 @@ class RedTeam extends Team {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// The code for the red bases
+// The code for the green bases
 //
 ///////////////////////////////////////////////////////////////////////////
 class RedBase extends Base {
@@ -82,12 +82,25 @@ class RedBase extends Base {
         brain[5].z++;
     }
 
+    if (brain[0].z == 2 && brain[1].z == 2){
+      ArrayList Launchers = perceiveRobots(friend,LAUNCHER);
+      if (Launchers != null){
+       for( Object r : Launchers){
+          recycle((Robot)r);
+        }
+      }
+      
+      
+    }
     // creates new bullets and fafs if the stock is low and enought energy
     if ((bullets < 10) && (energy > 1000))
       newBullets(50);
     //if ((bullets < 10) && (energy > 1000))
     //  newFafs(10);
-
+    
+    //si il n'y a aucun LAUNCHER à proximité la base se défend elle même
+    if (perceiveRobots(friend,LAUNCHER) == null){
+      
     // if ennemy rocket launcher in the area of perception
     Robot bob = (Robot)minDist(perceiveRobots(ennemy, LAUNCHER));
     if (bob != null) {
@@ -95,6 +108,7 @@ class RedBase extends Base {
       // launch a faf if no friend robot on the trajectory...
       if (perceiveRobotsInCone(friend, heading) == null)
         launchFaf(bob);
+    }
     }
     
     if (brain[0].x !=-1){
@@ -104,7 +118,7 @@ class RedBase extends Base {
       }      
     }
     if (brain[1].x !=-1){
-      //si une deusièmee base a été découverte, en informe les launchers alentours
+      //si une deuxième base a été découverte, en informe les launchers alentours
       for( Object r : (perceiveRobots(friend,LAUNCHER))){
         informAboutXYTarget((Robot) r,new PVector(brain[1].x,brain[1].y));
       }
@@ -163,12 +177,10 @@ class RedBase extends Base {
       //quand un LAUNCHER rentre de la base avec la le message targetDestroyed
       else if(msg.type == TARGET_DESTROYED){
         if (msg.args[0] == brain[0].x && msg.args[1] == brain[0].y){
-          brain[0].x = -1;
-          brain[0].y = -1;
+          brain[0].z = 2;
          }
         if (msg.args[0] == brain[1].x && msg.args[1] == brain[1].y){
-          brain[1].x = -1;
-          brain[1].y = -1;
+          brain[1].z = 2;
          }
         
       }
@@ -180,7 +192,7 @@ class RedBase extends Base {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// The code for the red explorers
+// The code for the green explorers
 //
 ///////////////////////////////////////////////////////////////////////////
 // map of the brain:
@@ -416,7 +428,7 @@ class RedExplorer extends Explorer {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// The code for the red harvesters
+// The code for the green harvesters
 //
 ///////////////////////////////////////////////////////////////////////////
 // map of the brain:
@@ -621,7 +633,7 @@ class RedHarvester extends Harvester {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// The code for the red rocket launchers
+// The code for the green rocket launchers
 //
 ///////////////////////////////////////////////////////////////////////////
 // map of the brain:
