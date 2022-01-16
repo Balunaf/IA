@@ -384,6 +384,7 @@ class RedExplorer extends Explorer {
       if (basy != null)
         // if one is seen, send a message with the localized ennemy base
         informAboutTarget(basy, babe);
+      // brain[2] is a reserved space for storing coordinates of a primary objective
       brain[2].x = babe.pos.x;
       brain[2].y = babe.pos.y;
       brain[1].y = 1;
