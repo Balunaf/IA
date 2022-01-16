@@ -225,6 +225,9 @@ class RedExplorer extends Explorer {
     // inform rocket launchers about targets
     driveRocketLaunchers();
 
+    // reads messages
+    handleMessages();
+    
     // clear the message queue
     flushMessages();
   }
