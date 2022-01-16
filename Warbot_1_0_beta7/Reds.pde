@@ -3,6 +3,7 @@
 // The code for the green team
 // ===========================
 //
+final int TARGET_DESTROYED = 6;
 ///////////////////////////////////////////////////////////////////////////
 
 class RedTeam extends Team {
@@ -639,6 +640,11 @@ class RedRocketLauncher extends RocketLauncher {
   // > defines the behavior of the agent
   //
   void go() {
+    //if the base target has been destroy 
+    if (brain[4].x == 2){
+      
+      Message msg = new Message(team.T,this,(brain[0].x,brain[0].y));
+    }
     // if no energy or no bullets
     if ((energy < 100) || (bullets == 0))
       // go back to the base
@@ -649,7 +655,7 @@ class RedRocketLauncher extends RocketLauncher {
       goBackToBase();
     } else {
        handleMessages();
-       
+       //if LAUNCHER don't find the base change behavior to 2 (go back to base and inform the base)
        if(distance(new PVector(brain[0].x,brain[0].y)) < 5 &&  perceiveRobots(ennemy, BASE)== null ){
                brain[4].x = 2;  
                brain[0].z = -1;
